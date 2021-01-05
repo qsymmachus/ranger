@@ -55,3 +55,28 @@ func BenchmarkInt8(b *testing.B) {
 		Int8(1, 127)
 	}
 }
+
+func TestInt16(t *testing.T) {
+	type testVals struct {
+		start    int16
+		end      int16
+		expected []int16
+	}
+
+	tests := []testVals{
+		{1, 10, []int16{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
+		{-5, 5, []int16{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5}},
+		{7, 7, []int16{7}},
+		{10, 1, []int16{}},
+	}
+
+	for _, test := range tests {
+		assert.Equal(t, test.expected, Int16(test.start, test.end))
+	}
+}
+
+func BenchmarkInt16(b *testing.B) {
+	for i := 1; i < b.N; i++ {
+		Int16(1, 32767)
+	}
+}
