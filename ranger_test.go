@@ -165,3 +165,163 @@ func BenchmarkInt64(b *testing.B) {
 		Int64(1, 1000000)
 	}
 }
+
+func TestUint(t *testing.T) {
+	type testVals struct {
+		start    uint
+		end      uint
+		step     int
+		expected []uint
+	}
+
+	t.Run("It should generate intervals with a default step of 1", func(t *testing.T) {
+		tests := []testVals{
+			{1, 10, 1, []uint{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
+			{0, 5, 1, []uint{0, 1, 2, 3, 4, 5}},
+			{7, 7, 1, []uint{7}},
+			{10, 1, 1, []uint{}},
+		}
+
+		for _, test := range tests {
+			assert.Equal(t, test.expected, Uint(test.start, test.end))
+		}
+	})
+
+	t.Run("It should generate intervals using the provided 'Step' option", func(t *testing.T) {
+		tests := []testVals{
+			{1, 10, 3, []uint{1, 4, 7, 10}},
+			{1, 9, 3, []uint{1, 4, 7}},
+			{0, 6, 2, []uint{0, 2, 4, 6}},
+		}
+
+		for _, test := range tests {
+			assert.Equal(t, test.expected, Uint(test.start, test.end, Step(test.step)))
+		}
+	})
+}
+
+func BenchmarkUint(b *testing.B) {
+	for i := 1; i < b.N; i++ {
+		Uint(1, 1000000)
+	}
+}
+
+func TestUint8(t *testing.T) {
+	type testVals struct {
+		start    uint8
+		end      uint8
+		step     int
+		expected []uint8
+	}
+
+	t.Run("It should generate intervals with a default step of 1", func(t *testing.T) {
+		tests := []testVals{
+			{1, 10, 1, []uint8{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
+			{0, 5, 1, []uint8{0, 1, 2, 3, 4, 5}},
+			{7, 7, 1, []uint8{7}},
+			{10, 1, 1, []uint8{}},
+		}
+
+		for _, test := range tests {
+			assert.Equal(t, test.expected, Uint8(test.start, test.end))
+		}
+	})
+
+	t.Run("It should generate intervals using the provided 'Step' option", func(t *testing.T) {
+		tests := []testVals{
+			{1, 10, 3, []uint8{1, 4, 7, 10}},
+			{1, 9, 3, []uint8{1, 4, 7}},
+			{0, 6, 2, []uint8{0, 2, 4, 6}},
+		}
+
+		for _, test := range tests {
+			assert.Equal(t, test.expected, Uint8(test.start, test.end, Step(test.step)))
+		}
+	})
+}
+
+func BenchmarkUint8(b *testing.B) {
+	for i := 1; i < b.N; i++ {
+		Uint8(1, 255)
+	}
+}
+
+func TestUint16(t *testing.T) {
+	type testVals struct {
+		start    uint16
+		end      uint16
+		step     int
+		expected []uint16
+	}
+
+	t.Run("It should generate intervals with a default step of 1", func(t *testing.T) {
+		tests := []testVals{
+			{1, 10, 1, []uint16{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
+			{0, 5, 1, []uint16{0, 1, 2, 3, 4, 5}},
+			{7, 7, 1, []uint16{7}},
+			{10, 1, 1, []uint16{}},
+		}
+
+		for _, test := range tests {
+			assert.Equal(t, test.expected, Uint16(test.start, test.end))
+		}
+	})
+
+	t.Run("It should generate intervals using the provided 'Step' option", func(t *testing.T) {
+		tests := []testVals{
+			{1, 10, 3, []uint16{1, 4, 7, 10}},
+			{1, 9, 3, []uint16{1, 4, 7}},
+			{0, 6, 2, []uint16{0, 2, 4, 6}},
+		}
+
+		for _, test := range tests {
+			assert.Equal(t, test.expected, Uint16(test.start, test.end, Step(test.step)))
+		}
+	})
+}
+
+func BenchmarkUint16(b *testing.B) {
+	for i := 1; i < b.N; i++ {
+		Uint16(1, 65535)
+	}
+}
+
+func TestUint64(t *testing.T) {
+	type testVals struct {
+		start    uint64
+		end      uint64
+		step     int
+		expected []uint64
+	}
+
+	t.Run("It should generate intervals with a default step of 1", func(t *testing.T) {
+		tests := []testVals{
+			{1, 10, 1, []uint64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
+			{0, 5, 1, []uint64{0, 1, 2, 3, 4, 5}},
+			{7, 7, 1, []uint64{7}},
+			{10, 1, 1, []uint64{}},
+		}
+
+		for _, test := range tests {
+			assert.Equal(t, test.expected, Uint64(test.start, test.end))
+		}
+	})
+
+	t.Run("It should generate intervals using the provided 'Step' option", func(t *testing.T) {
+		tests := []testVals{
+			{1, 10, 3, []uint64{1, 4, 7, 10}},
+			{1, 9, 3, []uint64{1, 4, 7}},
+			{0, 6, 2, []uint64{0, 2, 4, 6}},
+		}
+
+		for _, test := range tests {
+			assert.Equal(t, test.expected, Uint64(test.start, test.end, Step(test.step)))
+		}
+	})
+}
+
+func BenchmarkUint64(b *testing.B) {
+	for i := 1; i < b.N; i++ {
+		Uint64(1, 1000000)
+	}
+}

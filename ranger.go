@@ -105,3 +105,83 @@ func Int64(start, end int64, opts ...Option) []int64 {
 
 	return vals
 }
+
+// Returns an interval slice of uints, with the specified start and end value.
+// Values between the start and end are incremented ("stepped") by 1, unless a
+// different step option is provided. If the end value is smaller than the
+// start value, returns an empty slice.
+func Uint(start, end uint, opts ...Option) []uint {
+	if start > end {
+		return []uint{}
+	}
+
+	options := options{}
+	options.mergeOptions(opts...)
+	vals := make([]uint, ((end-start)/uint(options.step))+1)
+	for i := range vals {
+		vals[i] = start
+		start += uint(options.step)
+	}
+
+	return vals
+}
+
+// Returns an interval slice of uint8s, with the specified start and end value.
+// Values between the start and end are incremented ("stepped") by 1, unless a
+// different step option is provided. If the end value is smaller than the
+// start value, returns an empty slice.
+func Uint8(start, end uint8, opts ...Option) []uint8 {
+	if start > end {
+		return []uint8{}
+	}
+
+	options := options{}
+	options.mergeOptions(opts...)
+	vals := make([]uint8, ((end-start)/uint8(options.step))+1)
+	for i := range vals {
+		vals[i] = start
+		start += uint8(options.step)
+	}
+
+	return vals
+}
+
+// Returns an interval slice of uint16s, with the specified start and end value.
+// Values between the start and end are incremented ("stepped") by 1, unless a
+// different step option is provided. If the end value is smaller than the
+// start value, returns an empty slice.
+func Uint16(start, end uint16, opts ...Option) []uint16 {
+	if start > end {
+		return []uint16{}
+	}
+
+	options := options{}
+	options.mergeOptions(opts...)
+	vals := make([]uint16, ((end-start)/uint16(options.step))+1)
+	for i := range vals {
+		vals[i] = start
+		start += uint16(options.step)
+	}
+
+	return vals
+}
+
+// Returns an interval slice of uint64s, with the specified start and end value.
+// Values between the start and end are incremented ("stepped") by 1, unless a
+// different step option is provided. If the end value is smaller than the
+// start value, returns an empty slice.
+func Uint64(start, end uint64, opts ...Option) []uint64 {
+	if start > end {
+		return []uint64{}
+	}
+
+	options := options{}
+	options.mergeOptions(opts...)
+	vals := make([]uint64, ((end-start)/uint64(options.step))+1)
+	for i := range vals {
+		vals[i] = start
+		start += uint64(options.step)
+	}
+
+	return vals
+}
