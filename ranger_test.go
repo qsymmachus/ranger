@@ -49,19 +49,33 @@ func TestInt8(t *testing.T) {
 	type testVals struct {
 		start    int8
 		end      int8
+		step     int
 		expected []int8
 	}
 
-	tests := []testVals{
-		{1, 10, []int8{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
-		{-5, 5, []int8{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5}},
-		{7, 7, []int8{7}},
-		{10, 1, []int8{}},
-	}
+	t.Run("It should generate intervals with a default step of 1", func(t *testing.T) {
+		tests := []testVals{
+			{1, 10, 1, []int8{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
+			{-5, 5, 1, []int8{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5}},
+			{7, 7, 1, []int8{7}},
+			{10, 1, 1, []int8{}},
+		}
 
-	for _, test := range tests {
-		assert.Equal(t, test.expected, Int8(test.start, test.end))
-	}
+		for _, test := range tests {
+			assert.Equal(t, test.expected, Int8(test.start, test.end))
+		}
+	})
+
+	t.Run("It should generate intervals using the provided 'Step' option", func(t *testing.T) {
+		tests := []testVals{
+			{1, 10, 3, []int8{1, 4, 7, 10}},
+			{-6, 6, 2, []int8{-6, -4, -2, 0, 2, 4, 6}},
+		}
+
+		for _, test := range tests {
+			assert.Equal(t, test.expected, Int8(test.start, test.end, Step(test.step)))
+		}
+	})
 }
 
 func BenchmarkInt8(b *testing.B) {
@@ -74,19 +88,33 @@ func TestInt16(t *testing.T) {
 	type testVals struct {
 		start    int16
 		end      int16
+		step     int
 		expected []int16
 	}
 
-	tests := []testVals{
-		{1, 10, []int16{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
-		{-5, 5, []int16{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5}},
-		{7, 7, []int16{7}},
-		{10, 1, []int16{}},
-	}
+	t.Run("It should generate intervals with a default step of 1", func(t *testing.T) {
+		tests := []testVals{
+			{1, 10, 1, []int16{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
+			{-5, 5, 1, []int16{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5}},
+			{7, 7, 1, []int16{7}},
+			{10, 1, 1, []int16{}},
+		}
 
-	for _, test := range tests {
-		assert.Equal(t, test.expected, Int16(test.start, test.end))
-	}
+		for _, test := range tests {
+			assert.Equal(t, test.expected, Int16(test.start, test.end))
+		}
+	})
+
+	t.Run("It should generate intervals using the provided 'Step' option", func(t *testing.T) {
+		tests := []testVals{
+			{1, 10, 3, []int16{1, 4, 7, 10}},
+			{-6, 6, 2, []int16{-6, -4, -2, 0, 2, 4, 6}},
+		}
+
+		for _, test := range tests {
+			assert.Equal(t, test.expected, Int16(test.start, test.end, Step(test.step)))
+		}
+	})
 }
 
 func BenchmarkInt16(b *testing.B) {
