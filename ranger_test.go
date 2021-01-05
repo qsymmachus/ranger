@@ -10,19 +10,33 @@ func TestInt(t *testing.T) {
 	type testVals struct {
 		start    int
 		end      int
+		step     int
 		expected []int
 	}
 
-	tests := []testVals{
-		{1, 10, []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
-		{-5, 5, []int{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5}},
-		{7, 7, []int{7}},
-		{10, 1, []int{}},
-	}
+	t.Run("It should generate intervals with a default step of 1", func(t *testing.T) {
+		tests := []testVals{
+			{1, 10, 1, []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
+			{-5, 5, 1, []int{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5}},
+			{7, 7, 1, []int{7}},
+			{10, 1, 1, []int{}},
+		}
 
-	for _, test := range tests {
-		assert.Equal(t, test.expected, Int(test.start, test.end))
-	}
+		for _, test := range tests {
+			assert.Equal(t, test.expected, Int(test.start, test.end))
+		}
+	})
+
+	t.Run("It should generate intervals using the provided 'Step' option", func(t *testing.T) {
+		tests := []testVals{
+			{1, 10, 3, []int{1, 4, 7, 10}},
+			{-6, 6, 2, []int{-6, -4, -2, 0, 2, 4, 6}},
+		}
+
+		for _, test := range tests {
+			assert.Equal(t, test.expected, Int(test.start, test.end, Step(test.step)))
+		}
+	})
 }
 
 func BenchmarkInt(b *testing.B) {
