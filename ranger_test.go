@@ -46,41 +46,6 @@ func BenchmarkInt(b *testing.B) {
 	}
 }
 
-func TestRune(t *testing.T) {
-	type testVals struct {
-		start    rune
-		end      rune
-		step     int
-		expected []rune
-	}
-
-	t.Run("It should generate intervals with a default step of 1", func(t *testing.T) {
-		tests := []testVals{
-			{'a', 'k', 1, []rune{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k'}},
-		}
-
-		for _, test := range tests {
-			assert.Equal(t, test.expected, Rune(test.start, test.end))
-		}
-	})
-
-	t.Run("It should generate intervals using the provided 'Step' option", func(t *testing.T) {
-		tests := []testVals{
-			{'a', 'g', 2, []rune{'a', 'c', 'e', 'g'}},
-		}
-
-		for _, test := range tests {
-			assert.Equal(t, test.expected, Rune(test.start, test.end, Step(test.step)))
-		}
-	})
-}
-
-func BenchmarkRune(b *testing.B) {
-	for i := 1; i < b.N; i++ {
-		Rune('a', 'z')
-	}
-}
-
 func TestInt8(t *testing.T) {
 	type testVals struct {
 		start    int8
@@ -358,5 +323,99 @@ func TestUint64(t *testing.T) {
 func BenchmarkUint64(b *testing.B) {
 	for i := 1; i < b.N; i++ {
 		Uint64(1, 1000000)
+	}
+}
+
+func TestRune(t *testing.T) {
+	type testVals struct {
+		start    rune
+		end      rune
+		step     int
+		expected []rune
+	}
+
+	t.Run("It should generate intervals with a default step of 1", func(t *testing.T) {
+		tests := []testVals{
+			{'a', 'k', 1, []rune{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k'}},
+		}
+
+		for _, test := range tests {
+			assert.Equal(t, test.expected, Rune(test.start, test.end))
+		}
+	})
+
+	t.Run("It should generate intervals using the provided 'Step' option", func(t *testing.T) {
+		tests := []testVals{
+			{'a', 'g', 2, []rune{'a', 'c', 'e', 'g'}},
+		}
+
+		for _, test := range tests {
+			assert.Equal(t, test.expected, Rune(test.start, test.end, Step(test.step)))
+		}
+	})
+}
+
+func BenchmarkRune(b *testing.B) {
+	for i := 1; i < b.N; i++ {
+		Rune('a', 'z')
+	}
+}
+
+func TestString(t *testing.T) {
+	type testVals struct {
+		start    string
+		end      string
+		step     int
+		expected []string
+	}
+
+	t.Run("It should generate intervals with a default step of 1", func(t *testing.T) {
+		tests := []testVals{
+			{"a", "k", 1, []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"}},
+		}
+
+		for _, test := range tests {
+			actual, err := String(test.start, test.end)
+			assert.NoError(t, err)
+			assert.Equal(t, test.expected, actual)
+		}
+	})
+
+	t.Run("It should generate intervals using the provided 'Step' option", func(t *testing.T) {
+		tests := []testVals{
+			{"a", "g", 2, []string{"a", "c", "e", "g"}},
+		}
+
+		for _, test := range tests {
+			actual, err := String(test.start, test.end, Step(test.step))
+			assert.NoError(t, err)
+			assert.Equal(t, test.expected, actual)
+		}
+	})
+
+	t.Run("It should return an error if either string has more than one character", func(t *testing.T) {
+		strings, err := String("abc", "z")
+		assert.Empty(t, strings)
+		assert.Error(t, err)
+
+		strings, err = String("a", "xyz")
+		assert.Empty(t, strings)
+		assert.Error(t, err)
+	})
+
+	t.Run("It should return an error if either string is empty", func(t *testing.T) {
+		strings, err := String("", "z")
+		assert.Empty(t, strings)
+		assert.Error(t, err)
+
+		strings, err = String("a", "")
+		assert.Empty(t, strings)
+		assert.Error(t, err)
+	})
+}
+
+func BenchmarkString(b *testing.B) {
+	for i := 1; i < b.N; i++ {
+		String("a", "z")
 	}
 }
