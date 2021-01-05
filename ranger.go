@@ -1,6 +1,6 @@
 package ranger
 
-// Encapsulates options that are applied to functions that generate intervals.
+// Options that applied to functions that generate intervals.
 type options struct {
 	step int
 }
