@@ -21,6 +21,12 @@ func TestInt(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		assert.Equal(t, test.expected, Int(int(test.start), int(test.end)))
+		assert.Equal(t, test.expected, Int(test.start, test.end))
+	}
+}
+
+func BenchmarkInt(b *testing.B) {
+	for i := 1; i < b.N; i++ {
+		Int(1, 1000000)
 	}
 }
