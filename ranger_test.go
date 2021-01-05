@@ -46,6 +46,41 @@ func BenchmarkInt(b *testing.B) {
 	}
 }
 
+func TestRune(t *testing.T) {
+	type testVals struct {
+		start    rune
+		end      rune
+		step     int
+		expected []rune
+	}
+
+	t.Run("It should generate intervals with a default step of 1", func(t *testing.T) {
+		tests := []testVals{
+			{'a', 'k', 1, []rune{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k'}},
+		}
+
+		for _, test := range tests {
+			assert.Equal(t, test.expected, Rune(test.start, test.end))
+		}
+	})
+
+	t.Run("It should generate intervals using the provided 'Step' option", func(t *testing.T) {
+		tests := []testVals{
+			{'a', 'g', 2, []rune{'a', 'c', 'e', 'g'}},
+		}
+
+		for _, test := range tests {
+			assert.Equal(t, test.expected, Rune(test.start, test.end, Step(test.step)))
+		}
+	})
+}
+
+func BenchmarkRune(b *testing.B) {
+	for i := 1; i < b.N; i++ {
+		Rune('a', 'z')
+	}
+}
+
 func TestInt8(t *testing.T) {
 	type testVals struct {
 		start    int8

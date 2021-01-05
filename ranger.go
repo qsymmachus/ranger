@@ -46,6 +46,27 @@ func Int(start, end int, opts ...Option) []int {
 	return vals
 }
 
+// Returns an interval slice of runes, with the specified start and end value.
+// Runes are incremented by simple adding an integer step value to the rune's
+// integer value, and casting that value back into a rune. The step value is 1,
+// unless a different step option is provided. If the end value is smaller than
+// the start value, returns an empty slice.
+func Rune(start, end rune, opts ...Option) []rune {
+	if start > end {
+		return []rune{}
+	}
+
+	options := options{}
+	options.mergeOptions(opts...)
+	vals := make([]rune, ((int(end)-int(start))/options.step)+1)
+	for i := range vals {
+		vals[i] = start
+		start = rune(int(start) + options.step)
+	}
+
+	return vals
+}
+
 // Returns an interval slice of int8s, with the specified start and end value.
 // Values between the start and end are incremented ("stepped") by 1, unless a
 // different step option is provided. If the end value is smaller than the
