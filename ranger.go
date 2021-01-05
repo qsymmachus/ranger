@@ -85,3 +85,23 @@ func Int16(start, end int16, opts ...Option) []int16 {
 
 	return vals
 }
+
+// Returns an interval slice of int64s, with the specified start and end value.
+// Values between the start and end are incremented ("stepped") by 1, unless a
+// different step option is provided. If the end value is smaller than the
+// start value, returns an empty slice.
+func Int64(start, end int64, opts ...Option) []int64 {
+	if start > end {
+		return []int64{}
+	}
+
+	options := options{}
+	options.mergeOptions(opts...)
+	vals := make([]int64, ((end-start)/int64(options.step))+1)
+	for i := range vals {
+		vals[i] = start
+		start += int64(options.step)
+	}
+
+	return vals
+}
