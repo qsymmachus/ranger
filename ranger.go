@@ -7,7 +7,9 @@ type options struct {
 	step int
 }
 
-// An Option function mutates the state of the underlying options struct.
+// An Option is just a function that changes the provided options struct.
+// All interval functions accept Options as variadic arguments, so you
+// can pass (optional!) options like step size.
 type Option func(*options)
 
 // Applies a list of option functions to the underlying options struct.
