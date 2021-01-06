@@ -1,16 +1,17 @@
+// Range functions for Go. Easily generate intervals of integers, floats, runes, and strings.
 package ranger
 
 import "fmt"
 
-// Options that applied to functions that generate intervals.
+// Options applied to all range functions in this package.
 type options struct {
 	step      int
 	floatStep float32
 }
 
 // An Option is just a function that changes the provided options struct.
-// All interval functions accept Options as variadic arguments, so you
-// can pass (optional!) options like step size.
+// All range functions in this package accept Options as variadic arguments,
+// so you can pass (optional!) options like step size.
 type Option func(*options)
 
 // The Step option changes the increment ("step") between values in generated
@@ -261,10 +262,10 @@ func Float64(start, end float64, opts ...Option) []float64 {
 }
 
 // Returns an interval slice of runes, with the specified start and end value.
-// Runes are incremented by simple adding an integer step value to the rune's
-// integer value, and casting that value back into a rune. The step value is 1,
-// unless a different step option is provided. If the end value is smaller than
-// the start value, returns an empty slice.
+// Runes are incremented by adding an integer step value to the rune's integer
+// value, and casting that value back into a rune. The step value is 1, unless
+// a different step option is provided. If the end value is smaller than the
+// start value, returns an empty slice.
 func Rune(start, end rune, opts ...Option) []rune {
 	if start > end {
 		return []rune{}
@@ -284,7 +285,9 @@ func Rune(start, end rune, opts ...Option) []rune {
 // Returns an interval slice of strings. Under the hood, this generates an
 // interval of runes and casts them to strings. For that reason, starting
 // and ending strings cannot be empty and must contain a single character,
-// or an error is returned.
+// or an error is returned. The step value is 1, unless a different step
+// option is provided. If the end value is smaller than the start value,
+// returns an empty slice.
 func String(start, end string, opts ...Option) ([]string, error) {
 	startRunes := []rune(start)
 	if len(startRunes) > 1 {
