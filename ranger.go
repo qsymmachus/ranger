@@ -4,7 +4,8 @@ import "fmt"
 
 // Options that applied to functions that generate intervals.
 type options struct {
-	step int
+	step      int
+	floatStep float32
 }
 
 // An Option is just a function that changes the provided options struct.
@@ -12,21 +13,32 @@ type options struct {
 // can pass (optional!) options like step size.
 type Option func(*options)
 
-// Applies a list of option functions to the underlying options struct.
-func (o *options) mergeOptions(opts ...Option) {
-	// Initialize defaults
-	o.step = 1
-
-	for _, opt := range opts {
-		opt(o)
-	}
-}
-
 // The Step option changes the increment ("step") between values in generated
 // intervals. If this option is omitted, the step defaults to 1.
 func Step(size int) func(*options) {
 	return func(opts *options) {
 		opts.step = size
+	}
+}
+
+// FloatStep changes the increment ("step") between values in a generated
+// interval of floats. If this option is omitted, the step defaults to 1.
+// If both FloatStep and Step are provided as options, FloatStep takes
+// precedence.
+func FloatStep(size float32) func(*options) {
+	return func(opts *options) {
+		opts.floatStep = size
+	}
+}
+
+// Applies a list of option functions to the underlying options struct.
+func (o *options) mergeOptions(opts ...Option) {
+	// Initialize defaults
+	o.step = 1
+	o.floatStep = 1.0
+
+	for _, opt := range opts {
+		opt(o)
 	}
 }
 
@@ -185,6 +197,64 @@ func Uint64(start, end uint64, opts ...Option) []uint64 {
 	for i := range vals {
 		vals[i] = start
 		start += uint64(options.step)
+	}
+
+	return vals
+}
+
+// Returns an interval slice of float32s, with the specified start and end value.
+// Values between the start and end are incremented ("stepped") by 1, unless a
+// different step option is provided. A FloatStep option takes precedence over a
+// Step option. If the end value is smaller than the start value, returns an
+// empty slice.
+func Float32(start, end float32, opts ...Option) []float32 {
+	if start > end {
+		return []float32{}
+	}
+
+	options := options{}
+	options.mergeOptions(opts...)
+
+	var step float32
+	if options.floatStep != 1.0 {
+		step = options.floatStep
+	} else {
+		step = float32(options.step)
+	}
+
+	vals := make([]float32, int(((end-start)/step)+1))
+	for i := range vals {
+		vals[i] = start
+		start += step
+	}
+
+	return vals
+}
+
+// Returns an interval slice of float64s, with the specified start and end value.
+// Values between the start and end are incremented ("stepped") by 1, unless a
+// different step option is provided. A FloatStep option takes precedence over a
+// Step option. If the end value is smaller than the start value, returns an
+// empty slice.
+func Float64(start, end float64, opts ...Option) []float64 {
+	if start > end {
+		return []float64{}
+	}
+
+	options := options{}
+	options.mergeOptions(opts...)
+
+	var step float64
+	if options.floatStep != 1.0 {
+		step = float64(options.floatStep)
+	} else {
+		step = float64(options.step)
+	}
+
+	vals := make([]float64, int(((end-start)/step)+1))
+	for i := range vals {
+		vals[i] = start
+		start += step
 	}
 
 	return vals

@@ -326,6 +326,114 @@ func BenchmarkUint64(b *testing.B) {
 	}
 }
 
+func TestFloat32(t *testing.T) {
+	type testVals struct {
+		start     float32
+		end       float32
+		step      int
+		floatStep float32
+		expected  []float32
+	}
+
+	t.Run("It should generate intervals with a default step of 1", func(t *testing.T) {
+		tests := []testVals{
+			{1, 10, 1, 1, []float32{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
+			{-5, 5, 1, 1, []float32{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5}},
+			{7, 7, 1, 1, []float32{7}},
+			{10, 1, 1, 1, []float32{}},
+		}
+
+		for _, test := range tests {
+			assert.Equal(t, test.expected, Float32(test.start, test.end))
+		}
+	})
+
+	t.Run("It should generate intervals using the provided 'Step' option", func(t *testing.T) {
+		tests := []testVals{
+			{1, 10, 3, 1, []float32{1, 4, 7, 10}},
+		}
+
+		for _, test := range tests {
+			assert.Equal(t, test.expected, Float32(test.start, test.end, Step(test.step)))
+		}
+	})
+
+	t.Run("It should generate intervals using the provided 'FloatStep' option", func(t *testing.T) {
+		tests := []testVals{
+			{1, 2, 1, 0.3, []float32{1, 1.3, 1.6, 1.9}},
+			{1, 2.5, 3, 0.5, []float32{1, 1.5, 2, 2.5}},
+		}
+
+		for _, test := range tests {
+			actual := Float32(test.start, test.end, FloatStep(test.floatStep))
+
+			for i := range actual {
+				assert.InDelta(t, test.expected[i], actual[i], 0.0001)
+			}
+		}
+	})
+}
+
+func BenchmarkFloat32(b *testing.B) {
+	for i := 1; i < b.N; i++ {
+		Float32(1, 1000000)
+	}
+}
+
+func TestFloat64(t *testing.T) {
+	type testVals struct {
+		start     float64
+		end       float64
+		step      int
+		floatStep float32
+		expected  []float64
+	}
+
+	t.Run("It should generate intervals with a default step of 1", func(t *testing.T) {
+		tests := []testVals{
+			{1, 10, 1, 1, []float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
+			{-5, 5, 1, 1, []float64{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5}},
+			{7, 7, 1, 1, []float64{7}},
+			{10, 1, 1, 1, []float64{}},
+		}
+
+		for _, test := range tests {
+			assert.Equal(t, test.expected, Float64(test.start, test.end))
+		}
+	})
+
+	t.Run("It should generate intervals using the provided 'Step' option", func(t *testing.T) {
+		tests := []testVals{
+			{1, 10, 3, 1, []float64{1, 4, 7, 10}},
+		}
+
+		for _, test := range tests {
+			assert.Equal(t, test.expected, Float64(test.start, test.end, Step(test.step)))
+		}
+	})
+
+	t.Run("It should generate intervals using the provided 'FloatStep' option", func(t *testing.T) {
+		tests := []testVals{
+			{1, 2, 1, 0.3, []float64{1, 1.3, 1.6, 1.9}},
+			{1, 2.5, 3, 0.5, []float64{1, 1.5, 2, 2.5}},
+		}
+
+		for _, test := range tests {
+			actual := Float64(test.start, test.end, FloatStep(test.floatStep))
+
+			for i := range actual {
+				assert.InDelta(t, test.expected[i], actual[i], 0.0001)
+			}
+		}
+	})
+}
+
+func BenchmarkFloat64(b *testing.B) {
+	for i := 1; i < b.N; i++ {
+		Float64(1, 1000000)
+	}
+}
+
 func TestRune(t *testing.T) {
 	type testVals struct {
 		start    rune
