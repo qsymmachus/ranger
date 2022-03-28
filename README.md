@@ -3,7 +3,7 @@
 ranger 🧝‍♂️
 =========
 
-The missing range functions for Go. Generating a range of numbers or characters ([intervals](https://en.wikipedia.org/wiki/Interval_(mathematics))) is an inane but useful task – perfect for a computer. 
+The missing range functions for Go. Generating a range of numbers or characters ([intervals](https://en.wikipedia.org/wiki/Interval_(mathematics))) is an inane but useful task – perfect for a computer.
 
 I missed the [range](https://ruby-doc.org/core-2.5.1/Range.html) type in Ruby so I wrote this.
 
@@ -19,21 +19,21 @@ Examples
 ```go
 // Integer intervals
 // ----------------
-numbers := ranger.Int(1, 10)
+numbers := ranger.Range[int](1, 10)
 fmt.Printf("%v", numbers) // [1 2 3 4 5 6 7 8 9 10]
 
-odds := ranger.Int(1, 10, ranger.Step(2))
+odds := ranger.Range[int](1, 10, ranger.Step(2))
 fmt.Printf("%v", odds) // [1 3 5 7 9]
 
-littleNumbers := ranger.Int8(1, 127)
+littleNumbers := ranger.Range[int8](1, 127)
 fmt.Printf("%v", littleNumbers) // [1 2 3 4...for a little while]
 
-bigNumbers := ranger.Int64(1, 1000000)
+bigNumbers := ranger.Range[int64](1, 1000000)
 fmt.Printf("%v", bigNumbers) // [1 2 3 4...for a long while]
 
 // Float intervals
 // ---------------
-floats := ranger.Float32(1, 2.5, ranger.FloatStep(0.5))
+floats := ranger.Range[float32](1, 2.5, ranger.Step(0.5))
 fmt.Printf("%v", floats) // [1.0 1.5 2.0 2.5]
 
 // Character intervals
@@ -51,3 +51,17 @@ for _, letter := range alphabet {
 fmt.Println("Now I know my ABCs!")
 ```
 
+Development
+-----------
+
+To run all tests:
+
+```
+go test ./...
+```
+
+To run benchmarks:
+
+```
+go test -bench ./...
+```
