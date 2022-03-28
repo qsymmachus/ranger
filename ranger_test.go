@@ -6,16 +6,16 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestInt(t *testing.T) {
-	type testVals struct {
-		start    int
-		end      int
-		step     int
-		expected []int
-	}
+type testVals[N Number] struct {
+	start    N
+	end      N
+	step     N
+	expected []N
+}
 
+func TestInt(t *testing.T) {
 	t.Run("It should generate intervals with a default step of 1", func(t *testing.T) {
-		tests := []testVals{
+		tests := []testVals[int]{
 			{1, 10, 1, []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
 			{-5, 5, 1, []int{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5}},
 			{7, 7, 1, []int{7}},
@@ -23,39 +23,33 @@ func TestInt(t *testing.T) {
 		}
 
 		for _, test := range tests {
-			assert.Equal(t, test.expected, Int(test.start, test.end))
+			assert.Equal(t, test.expected, Range[int](test.start, test.end))
 		}
 	})
 
 	t.Run("It should generate intervals using the provided 'Step' option", func(t *testing.T) {
-		tests := []testVals{
+		tests := []testVals[int]{
 			{1, 10, 3, []int{1, 4, 7, 10}},
 			{1, 9, 3, []int{1, 4, 7}},
 			{-6, 6, 2, []int{-6, -4, -2, 0, 2, 4, 6}},
 		}
 
 		for _, test := range tests {
-			assert.Equal(t, test.expected, Int(test.start, test.end, Step(test.step)))
+			assert.Equal(t, test.expected, Range[int](test.start, test.end, Step(test.step)))
 		}
 	})
 }
 
 func BenchmarkInt(b *testing.B) {
 	for i := 1; i < b.N; i++ {
-		Int(1, 1000000)
+		Range[int](1, 1000000)
 	}
 }
 
 func TestInt8(t *testing.T) {
-	type testVals struct {
-		start    int8
-		end      int8
-		step     int
-		expected []int8
-	}
 
 	t.Run("It should generate intervals with a default step of 1", func(t *testing.T) {
-		tests := []testVals{
+		tests := []testVals[int8]{
 			{1, 10, 1, []int8{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
 			{-5, 5, 1, []int8{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5}},
 			{7, 7, 1, []int8{7}},
@@ -63,39 +57,32 @@ func TestInt8(t *testing.T) {
 		}
 
 		for _, test := range tests {
-			assert.Equal(t, test.expected, Int8(test.start, test.end))
+			assert.Equal(t, test.expected, Range[int8](test.start, test.end))
 		}
 	})
 
 	t.Run("It should generate intervals using the provided 'Step' option", func(t *testing.T) {
-		tests := []testVals{
+		tests := []testVals[int8]{
 			{1, 10, 3, []int8{1, 4, 7, 10}},
 			{1, 9, 3, []int8{1, 4, 7}},
 			{-6, 6, 2, []int8{-6, -4, -2, 0, 2, 4, 6}},
 		}
 
 		for _, test := range tests {
-			assert.Equal(t, test.expected, Int8(test.start, test.end, Step(test.step)))
+			assert.Equal(t, test.expected, Range[int8](test.start, test.end, Step(test.step)))
 		}
 	})
 }
 
 func BenchmarkInt8(b *testing.B) {
 	for i := 1; i < b.N; i++ {
-		Int8(1, 127)
+		Range[int8](1, 127)
 	}
 }
 
 func TestInt16(t *testing.T) {
-	type testVals struct {
-		start    int16
-		end      int16
-		step     int
-		expected []int16
-	}
-
 	t.Run("It should generate intervals with a default step of 1", func(t *testing.T) {
-		tests := []testVals{
+		tests := []testVals[int16]{
 			{1, 10, 1, []int16{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
 			{-5, 5, 1, []int16{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5}},
 			{7, 7, 1, []int16{7}},
@@ -103,39 +90,32 @@ func TestInt16(t *testing.T) {
 		}
 
 		for _, test := range tests {
-			assert.Equal(t, test.expected, Int16(test.start, test.end))
+			assert.Equal(t, test.expected, Range[int16](test.start, test.end))
 		}
 	})
 
 	t.Run("It should generate intervals using the provided 'Step' option", func(t *testing.T) {
-		tests := []testVals{
+		tests := []testVals[int16]{
 			{1, 10, 3, []int16{1, 4, 7, 10}},
 			{1, 9, 3, []int16{1, 4, 7}},
 			{-6, 6, 2, []int16{-6, -4, -2, 0, 2, 4, 6}},
 		}
 
 		for _, test := range tests {
-			assert.Equal(t, test.expected, Int16(test.start, test.end, Step(test.step)))
+			assert.Equal(t, test.expected, Range[int16](test.start, test.end, Step(test.step)))
 		}
 	})
 }
 
 func BenchmarkInt16(b *testing.B) {
 	for i := 1; i < b.N; i++ {
-		Int16(1, 32767)
+		Range[int16](1, 32767)
 	}
 }
 
 func TestInt64(t *testing.T) {
-	type testVals struct {
-		start    int64
-		end      int64
-		step     int
-		expected []int64
-	}
-
 	t.Run("It should generate intervals with a default step of 1", func(t *testing.T) {
-		tests := []testVals{
+		tests := []testVals[int64]{
 			{1, 10, 1, []int64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
 			{-5, 5, 1, []int64{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5}},
 			{7, 7, 1, []int64{7}},
@@ -143,39 +123,32 @@ func TestInt64(t *testing.T) {
 		}
 
 		for _, test := range tests {
-			assert.Equal(t, test.expected, Int64(test.start, test.end))
+			assert.Equal(t, test.expected, Range[int64](test.start, test.end))
 		}
 	})
 
 	t.Run("It should generate intervals using the provided 'Step' option", func(t *testing.T) {
-		tests := []testVals{
+		tests := []testVals[int64]{
 			{1, 10, 3, []int64{1, 4, 7, 10}},
 			{1, 9, 3, []int64{1, 4, 7}},
 			{-6, 6, 2, []int64{-6, -4, -2, 0, 2, 4, 6}},
 		}
 
 		for _, test := range tests {
-			assert.Equal(t, test.expected, Int64(test.start, test.end, Step(test.step)))
+			assert.Equal(t, test.expected, Range[int64](test.start, test.end, Step(test.step)))
 		}
 	})
 }
 
 func BenchmarkInt64(b *testing.B) {
 	for i := 1; i < b.N; i++ {
-		Int64(1, 1000000)
+		Range[int64](1, 1000000)
 	}
 }
 
 func TestUint(t *testing.T) {
-	type testVals struct {
-		start    uint
-		end      uint
-		step     int
-		expected []uint
-	}
-
 	t.Run("It should generate intervals with a default step of 1", func(t *testing.T) {
-		tests := []testVals{
+		tests := []testVals[uint]{
 			{1, 10, 1, []uint{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
 			{0, 5, 1, []uint{0, 1, 2, 3, 4, 5}},
 			{7, 7, 1, []uint{7}},
@@ -183,39 +156,32 @@ func TestUint(t *testing.T) {
 		}
 
 		for _, test := range tests {
-			assert.Equal(t, test.expected, Uint(test.start, test.end))
+			assert.Equal(t, test.expected, Range[uint](test.start, test.end))
 		}
 	})
 
 	t.Run("It should generate intervals using the provided 'Step' option", func(t *testing.T) {
-		tests := []testVals{
+		tests := []testVals[uint]{
 			{1, 10, 3, []uint{1, 4, 7, 10}},
 			{1, 9, 3, []uint{1, 4, 7}},
 			{0, 6, 2, []uint{0, 2, 4, 6}},
 		}
 
 		for _, test := range tests {
-			assert.Equal(t, test.expected, Uint(test.start, test.end, Step(test.step)))
+			assert.Equal(t, test.expected, Range[uint](test.start, test.end, Step(test.step)))
 		}
 	})
 }
 
 func BenchmarkUint(b *testing.B) {
 	for i := 1; i < b.N; i++ {
-		Uint(1, 1000000)
+		Range[uint](1, 1000000)
 	}
 }
 
 func TestUint8(t *testing.T) {
-	type testVals struct {
-		start    uint8
-		end      uint8
-		step     int
-		expected []uint8
-	}
-
 	t.Run("It should generate intervals with a default step of 1", func(t *testing.T) {
-		tests := []testVals{
+		tests := []testVals[uint8]{
 			{1, 10, 1, []uint8{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
 			{0, 5, 1, []uint8{0, 1, 2, 3, 4, 5}},
 			{7, 7, 1, []uint8{7}},
@@ -223,39 +189,32 @@ func TestUint8(t *testing.T) {
 		}
 
 		for _, test := range tests {
-			assert.Equal(t, test.expected, Uint8(test.start, test.end))
+			assert.Equal(t, test.expected, Range[uint8](test.start, test.end))
 		}
 	})
 
 	t.Run("It should generate intervals using the provided 'Step' option", func(t *testing.T) {
-		tests := []testVals{
+		tests := []testVals[uint8]{
 			{1, 10, 3, []uint8{1, 4, 7, 10}},
 			{1, 9, 3, []uint8{1, 4, 7}},
 			{0, 6, 2, []uint8{0, 2, 4, 6}},
 		}
 
 		for _, test := range tests {
-			assert.Equal(t, test.expected, Uint8(test.start, test.end, Step(test.step)))
+			assert.Equal(t, test.expected, Range[uint8](test.start, test.end, Step(test.step)))
 		}
 	})
 }
 
 func BenchmarkUint8(b *testing.B) {
 	for i := 1; i < b.N; i++ {
-		Uint8(1, 255)
+		Range[uint8](1, 255)
 	}
 }
 
 func TestUint16(t *testing.T) {
-	type testVals struct {
-		start    uint16
-		end      uint16
-		step     int
-		expected []uint16
-	}
-
 	t.Run("It should generate intervals with a default step of 1", func(t *testing.T) {
-		tests := []testVals{
+		tests := []testVals[uint16]{
 			{1, 10, 1, []uint16{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
 			{0, 5, 1, []uint16{0, 1, 2, 3, 4, 5}},
 			{7, 7, 1, []uint16{7}},
@@ -263,39 +222,32 @@ func TestUint16(t *testing.T) {
 		}
 
 		for _, test := range tests {
-			assert.Equal(t, test.expected, Uint16(test.start, test.end))
+			assert.Equal(t, test.expected, Range[uint16](test.start, test.end))
 		}
 	})
 
 	t.Run("It should generate intervals using the provided 'Step' option", func(t *testing.T) {
-		tests := []testVals{
+		tests := []testVals[uint16]{
 			{1, 10, 3, []uint16{1, 4, 7, 10}},
 			{1, 9, 3, []uint16{1, 4, 7}},
 			{0, 6, 2, []uint16{0, 2, 4, 6}},
 		}
 
 		for _, test := range tests {
-			assert.Equal(t, test.expected, Uint16(test.start, test.end, Step(test.step)))
+			assert.Equal(t, test.expected, Range[uint16](test.start, test.end, Step(test.step)))
 		}
 	})
 }
 
 func BenchmarkUint16(b *testing.B) {
 	for i := 1; i < b.N; i++ {
-		Uint16(1, 65535)
+		Range[uint16](1, 65535)
 	}
 }
 
 func TestUint64(t *testing.T) {
-	type testVals struct {
-		start    uint64
-		end      uint64
-		step     int
-		expected []uint64
-	}
-
 	t.Run("It should generate intervals with a default step of 1", func(t *testing.T) {
-		tests := []testVals{
+		tests := []testVals[uint64]{
 			{1, 10, 1, []uint64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
 			{0, 5, 1, []uint64{0, 1, 2, 3, 4, 5}},
 			{7, 7, 1, []uint64{7}},
@@ -303,69 +255,52 @@ func TestUint64(t *testing.T) {
 		}
 
 		for _, test := range tests {
-			assert.Equal(t, test.expected, Uint64(test.start, test.end))
+			assert.Equal(t, test.expected, Range[uint64](test.start, test.end))
 		}
 	})
 
 	t.Run("It should generate intervals using the provided 'Step' option", func(t *testing.T) {
-		tests := []testVals{
+		tests := []testVals[uint64]{
 			{1, 10, 3, []uint64{1, 4, 7, 10}},
 			{1, 9, 3, []uint64{1, 4, 7}},
 			{0, 6, 2, []uint64{0, 2, 4, 6}},
 		}
 
 		for _, test := range tests {
-			assert.Equal(t, test.expected, Uint64(test.start, test.end, Step(test.step)))
+			assert.Equal(t, test.expected, Range[uint64](test.start, test.end, Step(test.step)))
 		}
 	})
 }
 
 func BenchmarkUint64(b *testing.B) {
 	for i := 1; i < b.N; i++ {
-		Uint64(1, 1000000)
+		Range[uint64](1, 1000000)
 	}
 }
 
 func TestFloat32(t *testing.T) {
-	type testVals struct {
-		start     float32
-		end       float32
-		step      int
-		floatStep float32
-		expected  []float32
-	}
-
 	t.Run("It should generate intervals with a default step of 1", func(t *testing.T) {
-		tests := []testVals{
-			{1, 10, 1, 1, []float32{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
-			{-5, 5, 1, 1, []float32{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5}},
-			{7, 7, 1, 1, []float32{7}},
-			{10, 1, 1, 1, []float32{}},
+		tests := []testVals[float32]{
+			{1, 10, 1, []float32{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
+			{-5, 5, 1, []float32{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5}},
+			{7, 7, 1, []float32{7}},
+			{10, 1, 1, []float32{}},
 		}
 
 		for _, test := range tests {
-			assert.Equal(t, test.expected, Float32(test.start, test.end))
+			assert.Equal(t, test.expected, Range[float32](test.start, test.end))
 		}
 	})
 
 	t.Run("It should generate intervals using the provided 'Step' option", func(t *testing.T) {
-		tests := []testVals{
-			{1, 10, 3, 1, []float32{1, 4, 7, 10}},
+		tests := []testVals[float32]{
+			{1, 10, 3, []float32{1, 4, 7, 10}},
+			{1, 2, 0.3, []float32{1, 1.3, 1.6, 1.9}},
+			{1, 2.5, 0.5, []float32{1, 1.5, 2, 2.5}},
 		}
 
 		for _, test := range tests {
-			assert.Equal(t, test.expected, Float32(test.start, test.end, Step(test.step)))
-		}
-	})
-
-	t.Run("It should generate intervals using the provided 'FloatStep' option", func(t *testing.T) {
-		tests := []testVals{
-			{1, 2, 1, 0.3, []float32{1, 1.3, 1.6, 1.9}},
-			{1, 2.5, 3, 0.5, []float32{1, 1.5, 2, 2.5}},
-		}
-
-		for _, test := range tests {
-			actual := Float32(test.start, test.end, FloatStep(test.floatStep))
+			actual := Range[float32](test.start, test.end, Step(test.step))
 
 			for i := range actual {
 				assert.InDelta(t, test.expected[i], actual[i], 0.0001)
@@ -376,50 +311,33 @@ func TestFloat32(t *testing.T) {
 
 func BenchmarkFloat32(b *testing.B) {
 	for i := 1; i < b.N; i++ {
-		Float32(1, 1000000)
+		Range[float32](1, 1000000)
 	}
 }
 
 func TestFloat64(t *testing.T) {
-	type testVals struct {
-		start     float64
-		end       float64
-		step      int
-		floatStep float32
-		expected  []float64
-	}
-
 	t.Run("It should generate intervals with a default step of 1", func(t *testing.T) {
-		tests := []testVals{
-			{1, 10, 1, 1, []float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
-			{-5, 5, 1, 1, []float64{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5}},
-			{7, 7, 1, 1, []float64{7}},
-			{10, 1, 1, 1, []float64{}},
+		tests := []testVals[float64]{
+			{1, 10, 1, []float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}},
+			{-5, 5, 1, []float64{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5}},
+			{7, 7, 1, []float64{7}},
+			{10, 1, 1, []float64{}},
 		}
 
 		for _, test := range tests {
-			assert.Equal(t, test.expected, Float64(test.start, test.end))
+			assert.Equal(t, test.expected, Range[float64](test.start, test.end))
 		}
 	})
 
 	t.Run("It should generate intervals using the provided 'Step' option", func(t *testing.T) {
-		tests := []testVals{
-			{1, 10, 3, 1, []float64{1, 4, 7, 10}},
+		tests := []testVals[float64]{
+			{1, 10, 3, []float64{1, 4, 7, 10}},
+			{1, 2, 0.3, []float64{1, 1.3, 1.6, 1.9}},
+			{1, 2.5, 0.5, []float64{1, 1.5, 2, 2.5}},
 		}
 
 		for _, test := range tests {
-			assert.Equal(t, test.expected, Float64(test.start, test.end, Step(test.step)))
-		}
-	})
-
-	t.Run("It should generate intervals using the provided 'FloatStep' option", func(t *testing.T) {
-		tests := []testVals{
-			{1, 2, 1, 0.3, []float64{1, 1.3, 1.6, 1.9}},
-			{1, 2.5, 3, 0.5, []float64{1, 1.5, 2, 2.5}},
-		}
-
-		for _, test := range tests {
-			actual := Float64(test.start, test.end, FloatStep(test.floatStep))
+			actual := Range[float64](test.start, test.end, Step(test.step))
 
 			for i := range actual {
 				assert.InDelta(t, test.expected[i], actual[i], 0.0001)
@@ -430,7 +348,7 @@ func TestFloat64(t *testing.T) {
 
 func BenchmarkFloat64(b *testing.B) {
 	for i := 1; i < b.N; i++ {
-		Float64(1, 1000000)
+		Range[float64](1, 1000000)
 	}
 }
 
