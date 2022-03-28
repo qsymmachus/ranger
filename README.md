@@ -13,6 +13,8 @@ The package includes functions for generating ranges of the following types:
 * __Floats__: `float32`, `float64`
 * __Characters__: `rune`, `string`
 
+The `Range[N]` function is parameterized by the type `N` which can be any integer or float type. This requires Go v1.18 to support generics; for older versions of Go use v0.0.1 of this package.
+
 Examples
 --------
 
