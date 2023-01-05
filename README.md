@@ -5,8 +5,6 @@ ranger 🧝‍♂️
 
 The missing range functions for Go. Generating a range of numbers or characters ([intervals](https://en.wikipedia.org/wiki/Interval_(mathematics))) is an inane but useful task – perfect for a computer.
 
-I missed the [range](https://ruby-doc.org/core-2.5.1/Range.html) type in Ruby so I wrote this.
-
 The package includes functions for generating ranges of the following types:
 
 * __Integers__: `int`, `int8`, `int16`, `int64`, `uint`, `uint8`, `uint16`, `uint64`
